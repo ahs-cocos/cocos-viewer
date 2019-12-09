@@ -1,6 +1,7 @@
 {
   "name": "cocos-viewer",
   "version": "0.1.0",
+  "author": "Dany Dhondt <dany.dhondt@arteveldehs.be>",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -11,10 +12,12 @@
     "react-scripts": "3.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "BROWSER='Safari Technology Preview' react-scripts start",
+    "build": "react-scripts --max_old_space_size=4096 build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "patch": "yarn version --patch && genversion --semi src/version.js && node ./src/versiongenerator.js",
+    "commit": "yarn run patch && git add . && git commit && git push"
   },
   "eslintConfig": {
     "extends": "react-app"
