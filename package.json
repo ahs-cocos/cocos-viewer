@@ -1,15 +1,20 @@
 {
   "name": "cocos-viewer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Dany Dhondt <dany.dhondt@arteveldehs.be>",
   "private": true,
+  "homepage": "https://www.arteveldehogeschool.be/cocos/viewer/",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "html-react-parser": "^0.10.0",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-scripts": "3.3.0"
+    "react-scripts": "3.3.0",
+    "semantic-ui-react": "^0.88.2"
   },
   "scripts": {
     "start": "BROWSER='Safari Technology Preview' react-scripts start",
@@ -33,5 +38,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "genversion": "^2.2.0"
   }
 }
