@@ -13,10 +13,10 @@ xsi:schemaLocation="http://www.imsglobal.org/xsd/imslticc_v1p0
                         http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticm_v1p0.xsd
                         http://www.imsglobal.org/xsd/imslticp_v1p0
                         http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticp_v1p0.xsd">
-<blti:title>med-canvas-lti-lijsten</blti:title>
+<blti:title>cocos-viewer</blti:title>
 <blti:description></blti:description>
 <blti:icon></blti:icon>
-<blti:launch_url>https://www.arteveldehogeschool.be/mediatheek/med-canvas-lti-lijsten/index.php</blti:launch_url>
+<blti:launch_url>https://www.arteveldehogeschool.be/cocos/viewer/index.html</blti:launch_url>
 <blti:custom>
     <lticm:property name="com_instructure_brand_config_js_url">\$com.instructure.brandConfigJS.url</lticm:property>
     <lticm:property name="canvas_css_common">\$Canvas.css.common</lticm:property>
@@ -25,7 +25,7 @@ xsi:schemaLocation="http://www.imsglobal.org/xsd/imslticc_v1p0
     <lticm:property name="privacy_level">public</lticm:property>
     <lticm:options name="course_navigation">
         <lticm:property name="enabled">true</lticm:property>
-        <lticm:property name="text">Leeslijst</lticm:property>
+        <lticm:property name="text">Cocos viewer</lticm:property>
         <lticm:property name="visibility">members</lticm:property>
     </lticm:options>
 </blti:extensions>
