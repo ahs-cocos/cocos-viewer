@@ -34,6 +34,22 @@ function App() {
 
     //console.log('VARS', window.user_id, window.custom_canvas_user_login_id, window.resource_link_id, window.roles, window)
 
+    useEffect(() => {
+        if (document.addEventListener) {
+            document.addEventListener('click', interceptClickEvent);
+        } else if (document.attachEvent) {
+            document.attachEvent('onclick', interceptClickEvent);
+        }
+    }, [])
+
+    const interceptClickEvent = (e) => {
+        const target = e.target
+        if (target.tagName === 'A') {
+            target.setAttribute('target', '_blank')
+        } else if (target.parentElement.tagName === 'A'){
+            target.parentElement.setAttribute('target', '_blank')
+        }
+    }
 
     useEffect(() => {
         const vars = {
@@ -122,8 +138,11 @@ function App() {
             setCourse(null)
             setVersion(null)
             setPublication(null)
+            setCurrentView(VIEW_SETTINGS)
         })
     }
+
+    console.log('CURRENT VIEW', currentView, course, publication, version, cocosUser)
 
     return (
         <div className="App">

@@ -90,6 +90,12 @@ const Settings = ({ltiConsumerCourseLink, courseService, onExitButtonClick, onBr
         courseService.updateLtiConsumerCourseLink(ltiConsumerCourseLink)
     }
 
+    const breakLink = () => {
+        setCourse(null)
+        onBreakLinkClick()
+    }
+
+    console.log('SETTINGS', course)
 
     return (
         <div className='flex-container'>
@@ -144,7 +150,10 @@ const Settings = ({ltiConsumerCourseLink, courseService, onExitButtonClick, onBr
 
                     <Segment>
                         <Button color='teal' onClick={onExitButtonClick}>Exit and view course</Button>
-                        <Button color='red' onClick={onBreakLinkClick}>Break LTI link and change course</Button></Segment>
+                        <Button color='red' onClick={breakLink}>Break LTI link and change course</Button>
+                    </Segment>
+
+                    <i>Beta: Please refresh the page after clicking one of these buttons</i>
                 </Form>
             </div>
         </div>

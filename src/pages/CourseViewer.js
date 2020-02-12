@@ -7,15 +7,45 @@ import {CocosHeader, CommentComp, CommentContext} from "cocos-lib";
 const Parser = require('html-react-parser')
 
 const COMMENT_TIMER_TIMEOUT = 3000
+const INDENT = 20
 
 const CourseViewer = ({courseService, commentService, course, cocosUser, publication, version, consumerVars}) => {
 
     console.log('CONSUMER VARS', consumerVars)
     const contentRef = useRef(null)
-
+    const [outline, setOutline] = useState(course.outline)
+    const [outlineLookup, setOutlineLookup] = useState()
     const [previewData, setPreviewData] = useState()
     const [comments, setComments] = useState()
     const [selectedOutlineItem, setSelectedOutlineItem] = useState()
+    const [selectedOutlineId, setSelectedOutlineId] = useState(0)
+    const [scrollPos, setScrollPos] = useState()
+
+    /*useEffect(() => {
+        window.onhashchange = (evt) => {
+            console.log('HASH CHANGE', evt)
+        }
+    }, [])*/
+
+    /*useEffect(() => {
+        if (!outlineLookup) return
+        const oi = outlineLookup[selectedOutlineId]
+        if (selectedOutlineItem) selectedOutlineItem.selected = false
+        oi.selected = true
+        console.log('SCROLLPOS', oi)
+    }, [selectedOutlineId])*/
+
+    useEffect(() => {
+        const flat = buildOutline(course.outline, 0, [], 0, publication.outline_ids.split(',').map(id => parseInt(id)))
+        console.log('FLAT', flat)
+        const lookup = {}
+        for (const flatElement of flat) {
+            lookup[flatElement.id] = flatElement
+        }
+
+        setOutlineLookup(lookup)
+
+    }, [])
 
     useEffect(() => {
         const id = setInterval(updateComments, COMMENT_TIMER_TIMEOUT)
@@ -31,9 +61,7 @@ const CourseViewer = ({courseService, commentService, course, cocosUser, publica
     }, [course, commentService])
 
     useEffect(() => {
-        console.log('REF', contentRef)
         if (!contentRef.current) return
-        console.log('REF', contentRef)
         contentRef.current.addEventListener("scroll", onScroll);
         return () => {
             contentRef.current.removeEventListener("scroll", onScroll);
@@ -47,6 +75,25 @@ const CourseViewer = ({courseService, commentService, course, cocosUser, publica
         })
     }, [])
 
+
+    const buildOutline = (base, indent, flatList, parentId, allowedIds) => {
+
+        for (const baseElement of base) {
+            //if (allowedIds.indexOf(baseElement.id === -1)) continue
+            const allowed = allowedIds.indexOf(baseElement.id) > -1
+            baseElement.indent = indent
+            baseElement.parentId = parentId
+            baseElement.status = 'open'
+            baseElement.allowed = allowed
+            flatList.push(baseElement)
+            if (baseElement.children) {
+                buildOutline(baseElement.children, indent + INDENT, flatList, baseElement.id, allowedIds)
+            }
+        }
+
+        return flatList
+    }
+
     const updateComments = () => {
         commentService.getComments(course).then(res => {
             if (res) setComments(res)
@@ -54,12 +101,20 @@ const CourseViewer = ({courseService, commentService, course, cocosUser, publica
     }
 
     const onScroll = (event) => {
-        //console.log('SCROLLING', event.target)
+        const els = event.target.getElementsByClassName('cocos-outline-title')
+        const topElId = [...els].filter(el => el.getBoundingClientRect().y > 0)[0].id
+        const id = parseInt(topElId.split('_')[1])
+        setSelectedOutlineId(id)
+
     }
 
     const onOutlineItemSelect = (outlineItem) => {
         console.log('SEL OI', outlineItem)
+        //window.location.hash = '#oi_' + outlineItem.id //Dit werkt ook!
+        const el = document.getElementById('oi_' + outlineItem.id)
+        el.scrollIntoView()
         setSelectedOutlineItem(outlineItem)
+        //setSelectedOutlineId(0)
     }
 
     const createComment = (comment) => {
@@ -89,8 +144,7 @@ const CourseViewer = ({courseService, commentService, course, cocosUser, publica
         <div className="flex-container">
 
 
-            <CourseViewerOutline course={course}
-                                 publication={publication}
+            <CourseViewerOutline outline={outline}
                                  onOutlineItemSelect={onOutlineItemSelect}/>
 
             {previewData && <div ref={contentRef} className='editor-center-column'>
