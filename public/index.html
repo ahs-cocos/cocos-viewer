@@ -16,6 +16,7 @@
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json"/>
     <link rel="stylesheet" href="//www.arteveldehogeschool.be/cocos/server/style/cocos.css"/>
+    <link rel="stylesheet" href="//www.arteveldehogeschool.be/cocos/server/style/cocos-viewer.css"/>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -29,8 +30,18 @@
     <title>CoCos viewer</title>
 </head>
 <body>
+<script type="text/javascript">
+    window.COCOS_VARS = '<?=$_POST['oauth_signature']?>';
+    window.COCOS_POST = '<?=var_dump($_POST)?>';
+    window.cocos_vars = 'cocos vars'
+    console.log('INIT COCOS', window.COCOS_VARS)
+    console.log('INIT COCOS 2', window.COCOS_POST)
+
+
+</script>
+
 <noscript>You need to enable JavaScript to run this app.</noscript>
-<div id="root" data-course="c87749e8-ed6c-484d-8da2-33727af5e56a" data-version="dc3cd046-2e4a-4192-ac40-d5c25408ffbe"></div>
+<div id="root"></div>
 <!--
   This HTML file is a template.
   If you open it directly in the browser, you will see an empty page.
@@ -42,5 +53,8 @@
   To create a production bundle, use `npm run build` or `yarn build`.
 -->
 <!--<script src="https://hypothes.is/embed.js" async></script>-->
+
+<?php include("./postObjectsInclude.html"); ?>
+
 </body>
 </html>

@@ -6,6 +6,8 @@ const OutlineItem = ({element, indent, onItemClick}) => {
 
     if (!element.status) element.status = 'closed'
 
+    if (!element.allowed) return null
+
     return (
         <div>
             <div style={{display: 'flex',

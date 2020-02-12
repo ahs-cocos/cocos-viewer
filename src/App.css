@@ -4,10 +4,32 @@ body {
 
 #root {
   height: 100%;
+  width: 100%;
 }
 
 .App {
   display: flex;
   flex-direction: column;
   height: 100%;
+}
+
+.viewer {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.viewer-outline {
+  padding: 20px;
+  background-color: rgba(216,216,216,0.4);
+}
+
+.viewer-content {
+  padding: 20px;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.viewer-comments {
+  padding: 20px;
 }

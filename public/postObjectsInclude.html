@@ -1,17 +1,36 @@
 <script type="text/javascript">
-    window.oauth_signature = '<?=$_POST['oauth_signature']?>';
-    window.oauth_consumer_key = '<?=$_POST['oauth_consumer_key']?>';
-    window.oauth_signature_method = '<?=$_POST['oauth_signature_method']?>';
-    window.oauth_timestamp = '<?=$_POST['oauth_timestamp']?>';
-    window.oauth_nonce = '<?=$_POST['oauth_nonce']?>';
-    window.oauth_version = '<?=$_POST['oauth_version']?>';
-    window.context_title = '<?=$_POST['context_title']?>';
-    window.resource_link_id = '<?=$_POST['resource_link_id']?>';
-    window.user_id = '<?=$_POST['user_id']?>';
-    window.custom_canvas_user_login_id = '<?=$_POST['custom_canvas_user_login_id']?>';
-    window.roles = '<?=$_POST['roles']?>';
-    window.ext_roles = '<?=$_POST['ext_roles']?>';
-    window.launch_presentation_return_url = '<?=$_POST['launch_presentation_return_url']?>';
-    window.method = '<?=$_SERVER['REQUEST_METHOD']?>';
-    window.subscriber = '<?=$_SERVER['subscriber']?>';
+    window.oauth_signature = "<?=$_POST['oauth_signature']?>";
+    window.oauth_consumer_key = "<?=$_POST['oauth_consumer_key']?>";
+    window.oauth_signature_method = "<?=$_POST['oauth_signature_method']?>";
+    window.oauth_timestamp = "<?=$_POST['oauth_timestamp']?>";
+    window.oauth_nonce = "<?=$_POST['oauth_nonce']?>";
+    window.oauth_version = "<?=$_POST['oauth_version']?>";
+    window.context_title = "<?=$_POST['context_title']?>";
+    window.resource_link_id = "<?=$_POST['resource_link_id']?>";
+    window.user_id = "<?=$_POST['user_id']?>";
+    window.custom_canvas_user_login_id = "<?=$_POST['custom_canvas_user_login_id']?>";
+    window.roles = "<?=$_POST['roles']?>";
+    window.ext_roles = "<?=$_POST['ext_roles']?>";
+    window.launch_presentation_return_url = "<?=$_POST['launch_presentation_return_url']?>";
+    window.method = "<?=$_SERVER['REQUEST_METHOD']?>";
+    window.subscriber = "<?=$_SERVER['subscriber']?>";
+    window.consumer = "<?=$_POST['consumer']?>";
+
+    window.lis_person_name_given = "<?=$_POST['lis_person_name_given']?>";
+    window.lis_person_name_family = "<?=$_POST['lis_person_name_family']?>";
+    window.lis_person_name_full = "<?=$_POST['lis_person_name_full']?>";
+    window.lis_person_contact_email_primary = "<?=$_POST['lis_person_contact_email_primary']?>";
+
+
+    window.context_id = "<?=$_POST['context_id']?>";
+    window.context_label = "<?=$_POST['context_label']?>";
+    window.context_title = "<?=$_POST['context_title']?>";
+
+    window.tool_consumer_info_product_family_code = "<?=$_POST['tool_consumer_info_product_family_code']?>";
+    window.tool_consumer_info_version = "<?=$_POST['tool_consumer_info_version']?>";
+    window.tool_consumer_instance_contact_email = "<?=$_POST['tool_consumer_instance_contact_email']?>";
+    window.tool_consumer_instance_description = "<?=$_POST['tool_consumer_instance_description']?>";
+    window.tool_consumer_instance_guid = "<?=$_POST['tool_consumer_instance_guid']?>";
+    window.tool_consumer_instance_name = "<?=$_POST['tool_consumer_instance_name']?>";
+    window.tool_consumer_instance_url = "<?=$_POST['tool_consumer_instance_url']?>";
 </script>
