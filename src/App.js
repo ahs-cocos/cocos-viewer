@@ -21,7 +21,7 @@ function App() {
     const [currentView, setCurrentView] = useState(VIEW_IDLE)
     const [consumerVars, setConsumerVars] = useState()
     const [isAdmin, setIsAdmin] = useState(false)
-    const [header, setHeader] = useState('CoCos Viewer')
+    const [header, setHeader] = useState('CoCOS Viewer')
     const [courseService] = useState(new CourseService())
     const [commentService] = useState(new CommentService())
     const [userService] = useState(new UserService())
@@ -55,7 +55,7 @@ function App() {
         const vars = {
             userId: window.user_id || '51e9ee7dc6318f005da822c325dbb6030d621747',
             userMail: window.custom_canvas_user_login_id || window.lis_person_contact_email_primary || 'danydh@arteveldehs.be',
-            courseId: window.resource_link_id || '354a474dd9ca66c5b6ec5d516a1a719cf2c2d592',
+            courseId: window.resource_link_id || 'c87749e8-ed6c-484d-8da2-33727af5e56a',
             roles: window.roles || 'Instructor',
             lis_person_name_given: window.lis_person_name_given,
             lis_person_name_family: window.lis_person_name_family,
