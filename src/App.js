@@ -16,7 +16,7 @@ const VIEW_NO_COURSE = 'noCourse'
 const VIEW_COURSE = 'course'
 const VIEW_SETTINGS = 'settings'
 
-function App() {
+function App(props) {
 
     const [currentView, setCurrentView] = useState(VIEW_IDLE)
     const [consumerVars, setConsumerVars] = useState()
@@ -42,20 +42,16 @@ function App() {
         }
     }, [])
 
-    const interceptClickEvent = (e) => {
-        const target = e.target
-        if (target.tagName === 'A') {
-            target.setAttribute('target', '_blank')
-        } else if (target.parentElement.tagName === 'A'){
-            target.parentElement.setAttribute('target', '_blank')
-        }
-    }
-
     useEffect(() => {
+        //Initialisatie van parameters
+
+        //de viewer kan ook parameters injecteren vanuit de url parameters (bv. voor niet LTI integratie)
+        const urlParams = (new URL(document.location)).searchParams
+
         const vars = {
-            userId: window.user_id || '51e9ee7dc6318f005da822c325dbb6030d621747',
-            userMail: window.custom_canvas_user_login_id || window.lis_person_contact_email_primary || 'danydh@arteveldehs.be',
-            courseId: window.resource_link_id || 'c87749e8-ed6c-484d-8da2-33727af5e56a',
+            userId: window.user_id || urlParams.get('userId') || '51e9ee7dc6318f005da822c325dbb6030d621747',
+            userMail: window.custom_canvas_user_login_id || window.lis_person_contact_email_primary || urlParams.get('userMail') || 'danydh@arteveldehs.be',
+            courseId: window.resource_link_id || urlParams.get('courseId') || 'c87749e8-ed6c-484d-8da2-33727af5e56a',
             roles: window.roles || 'Instructor',
             lis_person_name_given: window.lis_person_name_given,
             lis_person_name_family: window.lis_person_name_family,
@@ -65,13 +61,16 @@ function App() {
             context_id: window.context_id,
             context_label: window.context_label,
             context_title:  window.context_title,
+            //context voor canvas
             tool_consumer_info_product_family_code: window.tool_consumer_info_product_family_code,
             tool_consumer_info_version: window.tool_consumer_info_version,
             tool_consumer_instance_contact_email: window.tool_consumer_instance_contact_email,
             tool_consumer_instance_description: window.tool_consumer_instance_description ,
             tool_consumer_instance_guid: window.tool_consumer_instance_guid,
             tool_consumer_instance_name: window.tool_consumer_instance_name,
-            tool_consumer_instance_url: window.tool_consumer_instance_url
+            tool_consumer_instance_url: window.tool_consumer_instance_url,
+
+            consumer: window.tool_consumer_info_product_family_code || urlParams.get('consumer') || 'canvas'
         }
         const cu = new CocosUser()
         cu.email = vars.userMail
@@ -105,13 +104,13 @@ function App() {
 
         if (!consumerVars) return
         //get ltiConsumerLink
-        courseService.getLtiConsumerCourseLink('canvas', consumerVars.courseId).then(res => {
+        courseService.getLtiConsumerCourseLink(consumerVars.consumer, consumerVars.courseId).then(res => {
             //geen links gevonden
             if (!res && !isAdmin) {
                 setCurrentView(VIEW_NO_COURSE)
             } else if (!res && isAdmin) {
                 const ltiCCL = new LtiConsumerCourseLink()
-                ltiCCL.consumer = 'canvas'
+                ltiCCL.consumer = consumerVars.consumer
                 ltiCCL.consumerContextId = consumerVars.courseId
                 ltiCCL.cocosCourseUuid = ''
 
@@ -126,6 +125,18 @@ function App() {
         })
 
     }, [consumerVars, isAdmin])
+
+    const interceptClickEvent = (e) => {
+        //let op, alle a's worden hierdoor vervangen!!
+        return
+
+        const target = e.target
+        if (target.tagName === 'A') {
+            target.setAttribute('target', '_blank')
+        } else if (target.parentElement.tagName === 'A'){
+            target.parentElement.setAttribute('target', '_blank')
+        }
+    }
 
     const onExitSettingsButtonClick = () => {
         console.log('EXIT', ltiConsumerCourseLink)
