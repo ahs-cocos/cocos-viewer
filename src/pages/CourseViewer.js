@@ -20,6 +20,7 @@ const CourseViewer = ({courseService, commentService, course, cocosUser, publica
     const [selectedOutlineItem, setSelectedOutlineItem] = useState()
     const [selectedOutlineId, setSelectedOutlineId] = useState(0)
     const [scrollPos, setScrollPos] = useState()
+    const [settings, setSettings] = useState({})
 
     /*useEffect(() => {
         window.onhashchange = (evt) => {
@@ -34,6 +35,11 @@ const CourseViewer = ({courseService, commentService, course, cocosUser, publica
         oi.selected = true
         console.log('SCROLLPOS', oi)
     }, [selectedOutlineId])*/
+
+    useEffect(() => {
+        if (!publication) return
+        setSettings(publication.settings && JSON.parse(publication.settings))
+    }, [publication])
 
     useEffect(() => {
         const flat = buildOutline(course.outline, 0, [], 0, publication.outline_ids.split(',').map(id => parseInt(id)))
@@ -144,15 +150,15 @@ const CourseViewer = ({courseService, commentService, course, cocosUser, publica
         <div className="flex-container">
 
 
-            <CourseViewerOutline outline={outline}
-                                 onOutlineItemSelect={onOutlineItemSelect}/>
+            {settings.showCourseOutline && <CourseViewerOutline outline={outline}
+                                 onOutlineItemSelect={onOutlineItemSelect}/>}
 
             {previewData && <div ref={contentRef} className='editor-center-column'>
                 <div>
                     {Parser(previewData)}</div>
             </div>}
 
-            <div className='editor-right-column'>
+            {settings.showCourseComments && <div className='editor-right-column'>
                 <Header>Comments</Header>
                 <Divider style={{marginTop: 0}}/>
                 {selectedOutlineItem && <CommentComp comments={comments}
@@ -163,7 +169,7 @@ const CourseViewer = ({courseService, commentService, course, cocosUser, publica
                                                      cocosUser={cocosUser}
                                                      createComment={createComment}
                                                      deleteComment={deleteComment}/>}
-            </div>
+            </div>}
         </div>
     )
 }

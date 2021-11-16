@@ -1,12 +1,10 @@
 import React, {useState, useEffect} from 'react';
 
 
-import {CourseService, CocosHeader, CocosUser, UserService, CommentService, Course, LtiConsumerCourseLink, CommentContext, CommentComp} from 'cocos-lib'
+import {CourseService, CocosHeader, CocosUser, UserService, CommentService, LtiConsumerCourseLink} from 'cocos-lib'
 import './App.css'
-import {Dropdown, Button} from "semantic-ui-react";
+import {Button} from "semantic-ui-react";
 import CourseViewer from "./pages/CourseViewer";
-import moment from "moment";
-import _ from 'lodash'
 import NoCourse from "./pages/NoCourse";
 import Settings from "./pages/Settings";
 
@@ -21,7 +19,7 @@ function App(props) {
     const [currentView, setCurrentView] = useState(VIEW_IDLE)
     const [consumerVars, setConsumerVars] = useState()
     const [isAdmin, setIsAdmin] = useState(false)
-    const [header, setHeader] = useState('CoCOS Viewer')
+    const [header] = useState('CoCOS Viewer')
     const [courseService] = useState(new CourseService())
     const [commentService] = useState(new CommentService())
     const [userService] = useState(new UserService())
@@ -52,7 +50,7 @@ function App(props) {
             userId: window.user_id || urlParams.get('userId') || '51e9ee7dc6318f005da822c325dbb6030d621747',
             userMail: window.custom_canvas_user_login_id || window.lis_person_contact_email_primary || urlParams.get('userMail') || 'danydh@arteveldehs.be',
             courseId: window.resource_link_id || urlParams.get('courseId') || 'c87749e8-ed6c-484d-8da2-33727af5e56a',
-            roles: window.roles || 'Instructor',
+            roles: window.roles || urlParams.get('roles') || 'Student',
             lis_person_name_given: window.lis_person_name_given,
             lis_person_name_family: window.lis_person_name_family,
             lis_person_name_full: window.lis_person_name_full,
@@ -74,6 +72,8 @@ function App(props) {
         }
         const cu = new CocosUser()
         cu.email = vars.userMail
+        //try to set avatar link
+        cu.photoURL = urlParams.get('photoURL') || ''
         setCocosUser(cu)
         console.log('C VARS', vars, window.roles)
         setConsumerVars(vars)
@@ -88,6 +88,7 @@ function App(props) {
             courseService.getCourseByUuid(ltiConsumerCourseLink.cocosCourseUuid),
             courseService.getPublicationVersionByUuid(ltiConsumerCourseLink.cocosVersionUuid)]).then(([c, v]) => {
 
+                console.log('RES', c, v, ltiConsumerCourseLink)
             const crs = c[0]
             const vrs = v[0]
             //TODO Checks: zowel course als version moeten bestaan / version.course moet gelijk zijn aan course.id!
@@ -102,6 +103,7 @@ function App(props) {
 
     useEffect(() => {
 
+        console.log('HUE', consumerVars)
         if (!consumerVars) return
         //get ltiConsumerLink
         courseService.getLtiConsumerCourseLink(consumerVars.consumer, consumerVars.courseId).then(res => {
